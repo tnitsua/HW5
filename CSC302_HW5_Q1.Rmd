@@ -1,0 +1,39 @@
+---
+title: 'CSC302: HW5, Part 1'
+author: "Austin Tetlow"
+date: "2022-3-22"
+output: html_document
+---
+
+```{r}
+library(maps)
+library(mapdata)
+library(ggplot2)
+library(ggrepel)
+library(cowplot)
+library(socviz)
+library(dplyr)
+```
+
+
+```{r}
+#(a) store state data in states dataframe
+states <- map_data("state")
+
+#select california data and store in california dataframe
+california <- filter(states, region == "california")
+
+#(b) load wind_turbines.rda into environment
+load("/home/rootuser/Downloads/Slides13_Geo_Rscripts_Data/wind_turbines.rda")
+
+#send CA turbines into wind_ca dataframe
+wind_ca <- filter(wind_turbines, t_state == "CA")
+
+#(c) vizualise data
+gg1 <-ggplot(california, aes(long, lat)) +
+  geom_polygon(aes(group = group, fill = group))
+
+#(d) plot turbine locations
+gg1 + geom_point(data=wind_ca, aes(xlong, ylat), color="coral1") + guides(fill="none")
+```
+
